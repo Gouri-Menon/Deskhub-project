@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login page</title>
+      <link rel="stylesheet" href="Login.css">
+</head>
+<body>
+    <div class="login-card">
+    <h1>Welcome Back</h1>
+    <p class="subtitle">Sign in to your workspace</p>
+
+    <form id="loginForm">
+        <div class="form-group">
+            <input
+                type="email"
+                id="email"
+                placeholder="Email address"
+                required
+            />
+        </div>
+
+        <div class="form-group">
+            <input
+                type="password"
+                id="password"
+                placeholder="Password"
+                required
+            />
+        </div>
+
+        <div class="error-banner" id="errorBanner">
+            Invalid email or password. Try demo123 with a @deskhub.in address.
+        </div>
+
+        <button type="submit" id="loginBtn">
+            Sign in
+        </button>
+    </form>
+</div>
+
+<script src="Login.js"></script>
+</body>
+</html>
