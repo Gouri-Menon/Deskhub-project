@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DeskHub Dashboard</title>
+
+  <link rel="stylesheet" href="./public/styles/main.css">
+</head>
+<body>
+
+  <div class="dashboard-container">
+
+    <div class="page-header">
+        <h1>Dashboard</h1>
+        <span class="date">Wednesday, 28 May 2026</span>
+    </div>
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+            <span class="label">TOTAL TICKETS</span>
+            <h2>30</h2>
+            <p>all time</p>
+        </div>
+
+        <div class="stat-card amber">
+            <span class="label">OPEN</span>
+            <h2>13</h2>
+            <p>needs action</p>
+        </div>
+
+        <div class="stat-card blue">
+            <span class="label">IN PROGRESS</span>
+            <h2>8</h2>
+            <p>being worked</p>
+        </div>
+
+        <div class="stat-card green">
+            <span class="label">RESOLVED</span>
+            <h2>4</h2>
+            <p>awaiting close</p>
+        </div>
+
+    </div>
+
+    <div class="tickets-section">
+
+        <div class="section-header">
+            <h2>Recent Tickets</h2>
+            <a href="tickets.html">View all tickets →</a>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Title</th>
+                    <th>Status</th>
+                    <th>Priority</th>
+                    <th>Created</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr onclick="location.href='ticket-detail.html?id=29'">
+                    <td>29</td>
+                    <td>Login page loops back after submit</td>
+                    <td><span class="badge open">OPEN</span></td>
+                    <td><span class="badge urgent">URGENT</span></td>
+                    <td>7 May</td>
+                </tr>
+
+                <tr onclick="location.href='ticket-detail.html?id=20'">
+                    <td>20</td>
+                    <td>Mobile app freezes on launch</td>
+                    <td><span class="badge open">OPEN</span></td>
+                    <td><span class="badge urgent">URGENT</span></td>
+                    <td>7 May</td>
+                </tr>
+
+                <tr onclick="location.href='ticket-detail.html?id=7'">
+                    <td>7</td>
+                    <td>App crashes when uploading files &gt;10MB</td>
+                    <td><span class="badge open">OPEN</span></td>
+                    <td><span class="badge urgent">URGENT</span></td>
+                    <td>7 May</td>
+                </tr>
+
+                <tr onclick="location.href='ticket-detail.html?id=1'">
+                    <td>1</td>
+                    <td>Cannot login to mobile app on iOS</td>
+                    <td><span class="badge open">OPEN</span></td>
+                    <td><span class="badge urgent">URGENT</span></td>
+                    <td>7 May</td>
+                </tr>
+
+                <tr onclick="location.href='ticket-detail.html?id=10'">
+                    <td>10</td>
+                    <td>Page goes blank after clicking Save</td>
+                    <td><span class="badge progress">IN PROGRESS</span></td>
+                    <td><span class="badge urgent">URGENT</span></td>
+                    <td>5 May</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+  <script src="./src/screens/Dashboard.js"></script>
+</body>
+</html>
