@@ -1,9 +1,14 @@
 {
   "name": "deskhub-project",
   "version": "1.0.0",
-  "main": "index.js",
+  "private": true,
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "api": "node server.cjs",
+    "dev": "vite",
+    "start": "concurrently -k -n api,web -c blue,green \"npm run api\" \"npm run dev\"",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "repository": {
     "type": "git",
@@ -16,5 +21,10 @@
     "url": "https://github.com/Gouri-Menon/Deskhub-project/issues"
   },
   "homepage": "https://github.com/Gouri-Menon/Deskhub-project#readme",
-  "description": ""
+  "description": "DeskHub — ticket desk demo (Vite + json-server)",
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "json-server": "^0.17.4",
+    "vite": "^6.0.3"
+  }
 }

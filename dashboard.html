@@ -3,118 +3,72 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DeskHub Dashboard</title>
-
-  <link rel="stylesheet" href="./public/styles/main.css">
+  <title>DeskHub — Dashboard</title>
 </head>
-<body>
-
+<body data-page="dashboard">
   <div class="dashboard-container">
-
     <div class="page-header">
-    <div>
+      <div>
         <h1>Dashboard</h1>
-        <span class="date">Wednesday, 28 May 2026</span>
+        <p class="welcome-line">
+          Welcome, <span id="welcome-name">Agent</span>
+        </p>
+        <span class="date" id="dashboard-date"></span>
+      </div>
+
+      <button type="button" id="logout-btn" class="logout-btn">Logout</button>
     </div>
 
-    <button id="logout-btn" class="logout-btn">
-        Logout
-    </button>
-</div>
-
     <div class="stats-grid">
+      <div class="stat-card">
+        <span class="label">TOTAL TICKETS</span>
+        <h2 id="stat-total">—</h2>
+        <p>all time</p>
+      </div>
 
-        <div class="stat-card">
-            <span class="label">TOTAL TICKETS</span>
-            <h2>30</h2>
-            <p>all time</p>
-        </div>
+      <div class="stat-card amber">
+        <span class="label">OPEN</span>
+        <h2 id="stat-open">—</h2>
+        <p>needs action</p>
+      </div>
 
-        <div class="stat-card amber">
-            <span class="label">OPEN</span>
-            <h2>13</h2>
-            <p>needs action</p>
-        </div>
+      <div class="stat-card blue">
+        <span class="label">IN PROGRESS</span>
+        <h2 id="stat-in-progress">—</h2>
+        <p>being worked</p>
+      </div>
 
-        <div class="stat-card blue">
-            <span class="label">IN PROGRESS</span>
-            <h2>8</h2>
-            <p>being worked</p>
-        </div>
-
-        <div class="stat-card green">
-            <span class="label">RESOLVED</span>
-            <h2>4</h2>
-            <p>awaiting close</p>
-        </div>
-
+      <div class="stat-card green">
+        <span class="label">RESOLVED</span>
+        <h2 id="stat-resolved">—</h2>
+        <p>awaiting close</p>
+      </div>
     </div>
 
     <div class="tickets-section">
+      <div class="section-header">
+        <h2>Recent tickets</h2>
+        <a href="/tickets.html" class="link-view-all">View all tickets →</a>
+      </div>
 
-        <div class="section-header">
-            <h2>Recent Tickets</h2>
-            <a href="tickets.html">View all tickets →</a>
-        </div>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Title</th>
-                    <th>Status</th>
-                    <th>Priority</th>
-                    <th>Created</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                <tr onclick="location.href='ticket-detail.html?id=29'">
-                    <td>29</td>
-                    <td>Login page loops back after submit</td>
-                    <td><span class="badge open">OPEN</span></td>
-                    <td><span class="badge urgent">URGENT</span></td>
-                    <td>7 May</td>
-                </tr>
-
-                <tr onclick="location.href='ticket-detail.html?id=20'">
-                    <td>20</td>
-                    <td>Mobile app freezes on launch</td>
-                    <td><span class="badge open">OPEN</span></td>
-                    <td><span class="badge urgent">URGENT</span></td>
-                    <td>7 May</td>
-                </tr>
-
-                <tr onclick="location.href='ticket-detail.html?id=7'">
-                    <td>7</td>
-                    <td>App crashes when uploading files &gt;10MB</td>
-                    <td><span class="badge open">OPEN</span></td>
-                    <td><span class="badge urgent">URGENT</span></td>
-                    <td>7 May</td>
-                </tr>
-
-                <tr onclick="location.href='ticket-detail.html?id=1'">
-                    <td>1</td>
-                    <td>Cannot login to mobile app on iOS</td>
-                    <td><span class="badge open">OPEN</span></td>
-                    <td><span class="badge urgent">URGENT</span></td>
-                    <td>7 May</td>
-                </tr>
-
-                <tr onclick="location.href='ticket-detail.html?id=10'">
-                    <td>10</td>
-                    <td>Page goes blank after clicking Save</td>
-                    <td><span class="badge progress">IN PROGRESS</span></td>
-                    <td><span class="badge urgent">URGENT</span></td>
-                    <td>5 May</td>
-                </tr>
-            </tbody>
+      <div class="table-wrap dashboard-recent-wrap">
+        <table class="dashboard-recent-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Title</th>
+              <th>Status</th>
+              <th>Priority</th>
+              <th>Created</th>
+              <th class="th-actions">Details</th>
+            </tr>
+          </thead>
+          <tbody id="recent-tickets-body"></tbody>
         </table>
-
+      </div>
     </div>
+  </div>
 
-</div>
-
-  <script src="./src/screens/Dashboard.js"></script>
+  <script type="module" src="/src/main.js"></script>
 </body>
 </html>

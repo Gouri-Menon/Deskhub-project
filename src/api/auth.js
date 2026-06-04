@@ -1,16 +1,15 @@
-import { post, get } from "./client";
+import { post, get } from "./client.js";
 
 export async function login(email, password) {
-  return post("/login", {
-    email,
-    password,
-  });
+  const { data } = await post("/login", { email, password });
+  return data;
 }
 
 export async function logout() {
-  return post("/logout");
+  await post("/logout");
 }
 
 export async function getCurrentUser() {
-  return get("/me");
+  const { data } = await get("/me");
+  return data;
 }

@@ -26,10 +26,16 @@
  *   [ ] Export shorthands: get, post, patch, put, del
  *   [ ] Handle network errors (TypeError from fetch) with a friendly message
  */
-const BASE_URL = "http://localhost:3001";
+import { get as getStored } from "../utils/storage.js";
+
+const BASE_URL =
+  typeof import.meta !== "undefined" && import.meta.env?.DEV
+    ? ""
+    : "http://localhost:3001";
 
 function getToken() {
-  return localStorage.getItem("deskhub:token");
+  const t = getStored("token");
+  return typeof t === "string" ? t : null;
 }
 
 export async function request(path, options = {}) {
@@ -76,18 +82,23 @@ export async function request(path, options = {}) {
       return null;
     }
 
-    const data = await response.json();
+    const raw = await response.text();
+    const total = Number(response.headers.get("X-Total-Count")) || 0;
 
-    return {
-      data,
-      total: Number(
-        response.headers.get("X-Total-Count")
-      ) || 0,
-    };
+    let data;
+    try {
+      data = raw.length ? JSON.parse(raw) : null;
+    } catch {
+      throw new Error(
+        "The API did not return JSON (wrong app on port 3001, or proxy error). Stop other apps on 3001, then run: npm run api — or use: npm start"
+      );
+    }
+
+    return { data, total };
   } catch (error) {
     if (error instanceof TypeError) {
       throw new Error(
-        "Unable to connect to server. Is json-server running?"
+        "Cannot reach the API. From the project folder run: npm start (or npm run api in a second terminal), then reload. The API must listen on http://localhost:3001."
       );
     }
 

@@ -1,53 +1,160 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DeskHub — Tickets</title>
 </head>
+<body data-page="tickets-list">
+  <div class="dashboard-container tickets-page">
+    <nav class="top-nav-bar" aria-label="Quick links">
+      <a href="/dashboard.html" class="nav-link-btn nav-link-btn--ghost">← Dashboard</a>
+    </nav>
 
-    <body data-page="tickets-list">
+    <div class="page-header">
+      <div>
+        <h1>Tickets</h1>
+      </div>
+      <button type="button" id="new-ticket-btn" class="secondary-btn">
+        New ticket
+      </button>
+    </div>
 
-  <h1>Tickets</h1>
+    <div id="loading" class="loading-banner" style="display: none">
+      Loading…
+    </div>
+    <div id="error" class="error-banner-page" style="display: none"></div>
 
-  <div class="filters">
+    <div class="filters">
+      <input
+        type="text"
+        id="search-input"
+        placeholder="Search tickets…"
+        aria-label="Search"
+      />
 
-    <input
-      type="text"
-      id="searchInput"
-      placeholder="Search tickets..."
-    />
+      <select id="filter-status" aria-label="Status">
+        <option value="">All status</option>
+        <option value="open">Open</option>
+        <option value="in-progress">In progress</option>
+        <option value="resolved">Resolved</option>
+        <option value="closed">Closed</option>
+      </select>
 
-    <select id="statusFilter" aria-label="Status Filter">
-      <option value="">All Status</option>
-      <option value="open">Open</option>
-      <option value="in-progress">In Progress</option>
-      <option value="resolved">Resolved</option>
-      <option value="closed">Closed</option>
-    </select>
+      <select id="filter-priority" aria-label="Priority">
+        <option value="">All priority</option>
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+        <option value="urgent">Urgent</option>
+      </select>
 
-    <select id="priorityFilter" aria-label="Priority Filter">
-      <option value="">All Priority</option>
-      <option value="low">Low</option>
-      <option value="medium">Medium</option>
-      <option value="high">High</option>
-      <option value="urgent">Urgent</option>
-    </select>
+      <select id="filter-assignee" aria-label="Assignee"></select>
 
-    <select id="assigneeFilter" aria-label="Assignee Filter"> </select>
+      <select id="sort-by" aria-label="Sort by">
+        <option value="createdAt">Newest</option>
+        <option value="updatedAt">Recently updated</option>
+        <option value="priority">Priority</option>
+        <option value="status">Status</option>
+      </select>
+    </div>
 
-    <select id="sortFilter" aria-label="Sort Filter">
-      <option value="createdAt">Newest</option>
-      <option value="priority">Priority</option>
-      <option value="status">Status</option>
-    </select>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Title</th>
+            <th>Customer</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th>Assignee</th>
+            <th>Created</th>
+          </tr>
+        </thead>
+        <tbody id="tickets-table"></tbody>
+      </table>
+    </div>
 
+    <div id="pagination" class="pagination"></div>
   </div>
 
-  <div id="ticketsContainer"></div>
+  <dialog id="new-ticket-dialog" class="ticket-modal">
+    <form id="new-ticket-form" class="ticket-modal-form">
+      <h2 class="ticket-modal-title">New ticket</h2>
 
-  <div id="pagination"></div>
+      <label class="modal-field">
+        <span>Title</span>
+        <input name="title" type="text" required maxlength="240" placeholder="Short summary" />
+      </label>
 
+      <label class="modal-field">
+        <span>Description</span>
+        <textarea
+          name="description"
+          required
+          rows="4"
+          placeholder="What happened? What do you need?"
+        ></textarea>
+      </label>
+
+      <div class="modal-row">
+        <label class="modal-field">
+          <span>Customer name</span>
+          <input name="customerName" type="text" required placeholder="Name" />
+        </label>
+        <label class="modal-field">
+          <span>Customer email</span>
+          <input name="customerEmail" type="email" required placeholder="email@example.com" />
+        </label>
+      </div>
+
+      <div class="modal-row modal-row-triple">
+        <label class="modal-field">
+          <span>Category</span>
+          <select name="category" required>
+            <option value="bug">Bug</option>
+            <option value="auth">Auth</option>
+            <option value="billing">Billing</option>
+            <option value="feature">Feature</option>
+          </select>
+        </label>
+        <label class="modal-field">
+          <span>Priority</span>
+          <select name="priority" required>
+            <option value="low">Low</option>
+            <option value="medium" selected>Medium</option>
+            <option value="high">High</option>
+            <option value="urgent">Urgent</option>
+          </select>
+        </label>
+        <label class="modal-field">
+          <span>Status</span>
+          <select name="status">
+            <option value="open" selected>Open</option>
+            <option value="in-progress">In progress</option>
+            <option value="resolved">Resolved</option>
+            <option value="closed">Closed</option>
+          </select>
+        </label>
+      </div>
+
+      <label class="modal-field">
+        <span>Assignee</span>
+        <select name="assignedTo" id="new-ticket-assignee"></select>
+      </label>
+
+      <div class="modal-actions">
+        <button type="button" class="secondary-btn" id="new-ticket-cancel">
+          Cancel
+        </button>
+        <button type="submit" class="primary-modal-btn" id="new-ticket-submit">
+          Create ticket
+        </button>
+      </div>
+    </form>
+  </dialog>
+
+  <script type="module" src="/src/main.js"></script>
 </body>
-
 </html>

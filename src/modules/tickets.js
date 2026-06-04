@@ -63,9 +63,10 @@
 // function openCreateModal() { /* TODO */ }
 
 
-import { listTickets, getUsers } from "../api/tickets.js";
+import { listTickets, getUsers, createTicket } from "../api/tickets.js";
 import { debounce } from "../utils/debounce.js";
 import { formatDate } from "../utils/formatDate.js";
+import { get } from "../utils/storage.js";
 
 const state = {
   search: "",
@@ -84,10 +85,8 @@ const state = {
 let users = [];
 
 export async function initTicketsList() {
-  const token = localStorage.getItem("deskhub:token");
-
-  if (!token) {
-    window.location.href = "index.html";
+  if (!get("token")) {
+    window.location.href = "/index.html";
     return;
   }
 
@@ -96,6 +95,7 @@ export async function initTicketsList() {
 users = response.data;
     populateAssigneeDropdown();
     attachEventListeners();
+    setupNewTicketDialog();
 
     await refresh();
   } catch (error) {
@@ -119,11 +119,11 @@ async function refresh() {
   limit: state.limit,
 });
 
-    state.items = response.data || response;
-
-    if (response.total) {
-      state.total = response.total;
-    }
+    state.items = Array.isArray(response.data) ? response.data : [];
+    state.total =
+      typeof response.total === "number"
+        ? response.total
+        : state.items.length;
 
     renderTable(state.items);
     renderPagination(state.total, state.page, state.limit);
@@ -132,9 +132,13 @@ async function refresh() {
   } catch (error) {
     console.error(error);
 
+    const hint =
+      error instanceof Error ? escapeHtml(error.message) : "Unknown error";
+
     showError(`
-      Failed to load tickets.
-      <button id="retry-btn">Retry</button>
+      <p><strong>Failed to load tickets.</strong></p>
+      <p class="error-detail">${hint}</p>
+      <button type="button" id="retry-btn">Retry</button>
     `);
 
     const retryBtn = document.getElementById("retry-btn");
@@ -170,18 +174,35 @@ function renderTable(items) {
       );
 
       return `
-        <tr>
+        <tr data-href="/ticket-detail.html?id=${ticket.id}">
           <td>${ticket.id}</td>
-          <td>${ticket.title}</td>
-          <td>${ticket.customer}</td>
-          <td>${ticket.priority}</td>
-          <td>${ticket.status}</td>
-          <td>${assignee ? assignee.name : "-"}</td>
+          <td>${escapeHtml(ticket.title)}</td>
+          <td>${escapeHtml(
+            ticket.customerName || ticket.customer || "—"
+          )}</td>
+          <td>${escapeHtml(ticket.priority)}</td>
+          <td>${escapeHtml(ticket.status)}</td>
+          <td>${assignee ? escapeHtml(assignee.name) : "-"}</td>
           <td>${formatDate(ticket.createdAt)}</td>
         </tr>
       `;
     })
     .join("");
+
+  table.querySelectorAll("tr[data-href]").forEach((row) => {
+    row.addEventListener("click", () => {
+      const href = row.getAttribute("data-href");
+      if (href) window.location.href = href;
+    });
+  });
+}
+
+function escapeHtml(s) {
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
 }
 
 function renderPagination(total, page, limit) {
@@ -318,8 +339,71 @@ function attachEventListeners() {
     ?.addEventListener("click", openCreateModal);
 }
 
+function setupNewTicketDialog() {
+  const dialog = document.getElementById("new-ticket-dialog");
+  const form = document.getElementById("new-ticket-form");
+  const cancelBtn = document.getElementById("new-ticket-cancel");
+
+  if (!dialog || !form || form.dataset.wired === "1") return;
+  form.dataset.wired = "1";
+
+  cancelBtn?.addEventListener("click", () => dialog.close());
+
+  dialog.addEventListener("click", (e) => {
+    if (e.target === dialog) dialog.close();
+  });
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    const assignedRaw = fd.get("assignedTo");
+    const payload = {
+      title: String(fd.get("title") || "").trim(),
+      description: String(fd.get("description") || "").trim(),
+      customerName: String(fd.get("customerName") || "").trim(),
+      customerEmail: String(fd.get("customerEmail") || "").trim(),
+      category: String(fd.get("category") || "bug"),
+      priority: String(fd.get("priority") || "medium"),
+      status: String(fd.get("status") || "open"),
+      assignedTo: assignedRaw ? Number(assignedRaw) : null,
+    };
+
+    if (!payload.title || !payload.description) {
+      alert("Please enter a title and description.");
+      return;
+    }
+
+    try {
+      const res = await createTicket(payload);
+      const created = res?.data;
+      dialog.close();
+      form.reset();
+      state.page = 1;
+      await refresh();
+      if (created?.id) {
+        window.location.href = `/ticket-detail.html?id=${created.id}`;
+      }
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "Could not create ticket");
+    }
+  });
+}
+
 function openCreateModal() {
-  alert("Create Ticket Modal - Day 31");
+  const dialog = document.getElementById("new-ticket-dialog");
+  const assignSelect = document.getElementById("new-ticket-assignee");
+  if (!dialog || !assignSelect) return;
+
+  assignSelect.innerHTML =
+    `<option value="">Unassigned</option>` +
+    users
+      .map(
+        (u) =>
+          `<option value="${u.id}">${escapeHtml(u.name)}</option>`
+      )
+      .join("");
+
+  dialog.showModal();
 }
 
 function showLoading() {

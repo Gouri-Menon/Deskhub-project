@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DeskHub — Ticket</title>
+</head>
+<body data-page="ticket-detail">
+  <div class="dashboard-container ticket-detail-page" id="ticket-detail-root">
+    <nav class="top-nav-bar" aria-label="Page navigation">
+      <a href="/dashboard.html" class="nav-link-btn">← Dashboard</a>
+      <a href="/tickets.html" id="back-link" class="nav-link-btn nav-link-btn--ghost">← Tickets</a>
+    </nav>
+
+    <div class="ticket-header-block">
+      <h1 id="ticket-title"></h1>
+      <p class="date" id="ticket-meta"></p>
+    </div>
+
+    <div class="ticket-grid">
+      <section class="ticket-panel">
+        <h2>Description</h2>
+        <div class="ticket-description-scroll">
+          <p id="ticket-description" class="ticket-description"></p>
+        </div>
+
+        <h2>Customer</h2>
+        <p id="ticket-customer"></p>
+
+        <h2>Update</h2>
+        <div class="ticket-controls">
+          <label>
+            Status
+            <select id="status-select">
+              <option value="open">Open</option>
+              <option value="in-progress">In progress</option>
+              <option value="resolved">Resolved</option>
+              <option value="closed">Closed</option>
+            </select>
+          </label>
+          <label>
+            Priority
+            <select id="priority-select">
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+              <option value="urgent">Urgent</option>
+            </select>
+          </label>
+          <label>
+            Assignee
+            <select id="assignee-select"></select>
+          </label>
+        </div>
+
+        <div class="ticket-actions-row">
+          <span
+            id="ticket-save-status"
+            class="ticket-save-status"
+            aria-live="polite"
+          ></span>
+          <div class="ticket-actions-buttons">
+            <button type="button" id="save-ticket-btn" class="save-ticket-btn">
+              Save changes
+            </button>
+            <button type="button" id="delete-btn" class="danger-btn danger-btn--row">
+              Delete ticket
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="ticket-panel">
+        <h2>Comments</h2>
+        <div class="comments-scroll-region">
+          <ul id="comments-list" class="comments-list"></ul>
+        </div>
+
+        <label class="comment-label" for="new-comment">Add comment</label>
+        <textarea id="new-comment" rows="4" placeholder="Write a comment…"></textarea>
+        <button type="button" id="add-comment-btn" class="secondary-btn">
+          Post comment
+        </button>
+      </section>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
