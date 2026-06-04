@@ -42,3 +42,69 @@
 // export async function deleteTicket(id) { /* TODO */ }
 // export async function listComments(ticketId) { /* TODO */ }
 // export async function addComment(comment) { /* TODO */ }
+
+
+import { get, post, patch, del } from "./client.js";
+
+export async function listTickets(opts = {}) {
+  const params = new URLSearchParams();
+
+  if (opts.search) params.append("q", opts.search);
+  if (opts.status) params.append("status", opts.status);
+  if (opts.priority) params.append("priority", opts.priority);
+  if (opts.assignee) params.append("assignedTo", opts.assignee);
+
+  params.append("_sort", opts.sortBy || "createdAt");
+  params.append("_order", opts.order || "desc");
+
+  params.append("_page", opts.page || 1);
+  params.append("_limit", opts.limit || 10);
+
+  const query = `?${params.toString()}`;
+
+  const response = await get(`/tickets${query}`);
+
+  return response;
+}
+
+export async function getTicket(id) {
+  return get(`/tickets/${id}`);
+}
+
+export async function createTicket(data) {
+  const now = new Date().toISOString();
+
+  return post("/tickets", {
+    ...data,
+    createdAt: now,
+    updatedAt: now,
+  });
+}
+
+export async function updateTicket(id, updates) {
+  return patch(`/tickets/${id}`, {
+    ...updates,
+    updatedAt: new Date().toISOString(),
+  });
+}
+
+export async function deleteTicket(id) {
+  return del(`/tickets/${id}`);
+}
+
+export async function listComments(ticketId) {
+  return get(
+    `/comments?ticketId=${ticketId}&_sort=createdAt&_order=asc`
+  );
+}
+
+export async function addComment(comment) {
+  return post("/comments", {
+    ...comment,
+    createdAt: new Date().toISOString(),
+  });
+}
+
+export async function getUsers() {
+  return get("/users");
+}

@@ -6,7 +6,7 @@ if (!isLoggedIn) {
 }
 
 document
-    .getElementById("logoutBtn")
+    .getElementById("logout-btn")
     .addEventListener("click", () => {
         localStorage.removeItem("deskhub:isLoggedIn");
 
