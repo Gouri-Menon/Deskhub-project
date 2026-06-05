@@ -84,6 +84,18 @@ const state = {
 
 let users = [];
 
+/** `value` from #sort-by is `field:order` (e.g. `createdAt:desc`). */
+function applySortFromSelectValue(value) {
+  const idx = value.lastIndexOf(":");
+  if (idx === -1) {
+    state.sortBy = value;
+    state.order = "desc";
+    return;
+  }
+  state.sortBy = value.slice(0, idx);
+  state.order = value.slice(idx + 1);
+}
+
 export async function initTicketsList() {
   if (!get("token")) {
     window.location.href = "/index.html";
@@ -96,6 +108,9 @@ users = response.data;
     populateAssigneeDropdown();
     attachEventListeners();
     setupNewTicketDialog();
+
+    const sortEl = document.getElementById("sort-by");
+    if (sortEl?.value) applySortFromSelectValue(sortEl.value);
 
     await refresh();
   } catch (error) {
@@ -307,9 +322,7 @@ function resetFilters() {
   const assigneeEl = document.getElementById("filter-assignee");
   if (assigneeEl) assigneeEl.value = "";
   const sortEl = document.getElementById("sort-by");
-  if (sortEl) sortEl.value = "createdAt";
-  const orderEl = document.getElementById("sort-order");
-  if (orderEl) orderEl.value = "desc";
+  if (sortEl) sortEl.value = "createdAt:desc";
 
   refresh();
 }
@@ -355,15 +368,7 @@ function attachEventListeners() {
   document
     .getElementById("sort-by")
     ?.addEventListener("change", (event) => {
-      state.sortBy = event.target.value;
-      state.page = 1;
-      refresh();
-    });
-
-  document
-    .getElementById("sort-order")
-    ?.addEventListener("change", (event) => {
-      state.order = event.target.value;
+      applySortFromSelectValue(event.target.value);
       state.page = 1;
       refresh();
     });
