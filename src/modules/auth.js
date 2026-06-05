@@ -19,7 +19,7 @@ export function initLogin() {
 
   form?.addEventListener("submit", async (e) => {
     e.preventDefault();
-    if (errorBanner) errorBanner.style.display = "none";
+    errorBanner?.classList.remove("is-visible");
 
     const email = document.getElementById("email")?.value?.trim() ?? "";
     const password = document.getElementById("password")?.value ?? "";
@@ -34,7 +34,7 @@ export function initLogin() {
         err instanceof Error ? err.message : "Sign in failed. Try again.";
       if (errorBanner) {
         errorBanner.textContent = msg;
-        errorBanner.style.display = "block";
+        errorBanner.classList.add("is-visible");
       } else {
         alert(msg);
       }

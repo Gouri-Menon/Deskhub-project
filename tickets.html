@@ -20,10 +20,10 @@
       </button>
     </div>
 
-    <div id="loading" class="loading-banner" style="display: none">
+    <div id="loading" class="loading-banner is-hidden">
       Loading…
     </div>
-    <div id="error" class="error-banner-page" style="display: none"></div>
+    <div id="error" class="error-banner-page is-hidden"></div>
 
     <div class="filters">
       <input
@@ -57,6 +57,10 @@
         <option value="priority">Priority</option>
         <option value="status">Status</option>
       </select>
+
+      <button type="button" id="reset-filters-btn" class="filters-reset-btn">
+        Reset filters
+      </button>
     </div>
 
     <div class="table-wrap">

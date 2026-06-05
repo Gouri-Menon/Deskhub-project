@@ -289,6 +289,29 @@ function populateAssigneeDropdown() {
   });
 }
 
+function resetFilters() {
+  state.search = "";
+  state.status = "";
+  state.priority = "";
+  state.assignee = "";
+  state.sortBy = "createdAt";
+  state.order = "desc";
+  state.page = 1;
+
+  const searchEl = document.getElementById("search-input");
+  if (searchEl) searchEl.value = "";
+  const statusEl = document.getElementById("filter-status");
+  if (statusEl) statusEl.value = "";
+  const priorityEl = document.getElementById("filter-priority");
+  if (priorityEl) priorityEl.value = "";
+  const assigneeEl = document.getElementById("filter-assignee");
+  if (assigneeEl) assigneeEl.value = "";
+  const sortEl = document.getElementById("sort-by");
+  if (sortEl) sortEl.value = "createdAt";
+
+  refresh();
+}
+
 function attachEventListeners() {
   const searchInput = document.getElementById("search-input");
 
@@ -333,6 +356,10 @@ function attachEventListeners() {
       state.sortBy = event.target.value;
       refresh();
     });
+
+  document
+    .getElementById("reset-filters-btn")
+    ?.addEventListener("click", resetFilters);
 
   document
     .getElementById("new-ticket-btn")
@@ -408,18 +435,12 @@ function openCreateModal() {
 
 function showLoading() {
   const loading = document.getElementById("loading");
-
-  if (loading) {
-    loading.style.display = "block";
-  }
+  loading?.classList.remove("is-hidden");
 }
 
 function hideLoading() {
   const loading = document.getElementById("loading");
-
-  if (loading) {
-    loading.style.display = "none";
-  }
+  loading?.classList.add("is-hidden");
 }
 
 function showError(message) {
@@ -427,14 +448,11 @@ function showError(message) {
 
   if (error) {
     error.innerHTML = message;
-    error.style.display = "block";
+    error.classList.remove("is-hidden");
   }
 }
 
 function hideError() {
   const error = document.getElementById("error");
-
-  if (error) {
-    error.style.display = "none";
-  }
+  error?.classList.add("is-hidden");
 }

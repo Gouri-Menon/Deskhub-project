@@ -73,3 +73,66 @@ The ticket is saved in the API (and in `db.json` while json-server runs). After 
 
 - In development, Vite proxies API paths to port **3001**, so the app uses same-origin requests.  
 - If you only open static HTML files without Vite, modules and the proxy will not work—always use `npm start`.
+
+## Deployment
+
+DeskHub is two parts: a **static frontend** (`npm run build` → `dist/`) and a **Node API** (`server.cjs` + `db.json`).
+
+### 1. Point the built app at your API
+
+When you build for production, the browser must know where the API lives (there is no Vite proxy in production).
+
+1. Deploy the API first and copy its public URL (e.g. `https://deskhub-api.onrender.com`).
+2. Set **`VITE_API_URL`** to that URL (no trailing slash) in the environment where you run **`npm run build`**.
+3. Run **`npm run build`**. The client embeds this URL into the JS bundle.
+
+Example (one-off on your machine):
+
+```bash
+set VITE_API_URL=https://your-api.example.com
+npm run build
+```
+
+On Linux/macOS:
+
+```bash
+VITE_API_URL=https://your-api.example.com npm run build
+```
+
+If you skip `VITE_API_URL`, the build still defaults to **`http://localhost:3001`** (only useful if you open the built files next to a local API).
+
+### 2. Host the frontend (`dist/`)
+
+Upload or connect the contents of **`dist/`** to any static host, for example:
+
+- [Netlify](https://www.netlify.com/) — publish directory `dist`, build command `npm run build`, add env **`VITE_API_URL`**
+- [Vercel](https://vercel.com/) — same idea; set **`VITE_API_URL`** in Project → Environment Variables for **Production**
+- [Cloudflare Pages](https://pages.cloudflare.com/)
+- Nginx / Apache on a VPS — `root` pointing at `dist`
+
+**GitHub Pages (project site):** your app lives under a subpath (e.g. `/Deskhub-project/`). Set `base` in `vite.config.js` (e.g. `base: '/Deskhub-project/'`) and rebuild, then set **`VITE_API_URL`** to your real API URL as above.
+
+### 3. Host the API (`server.cjs`)
+
+Run Node with the repo root as working directory so **`db.json`** is found next to `server.cjs`.
+
+- **Start command:** `node server.cjs`
+- **Install:** `npm ci` or `npm install` (json-server is a **dependency** so production installs work.)
+- **Port:** platforms usually set **`PORT`**; the server already uses `process.env.PORT || 3001`.
+
+Examples:
+
+- [Render](https://render.com/) — Web Service, runtime Node, start `node server.cjs`, add **`db.json`** in the repo.
+- [Railway](https://railway.app/) — deploy from GitHub, same start command.
+- **Your own VPS** — `git pull`, `npm ci`, `pm2 start server.cjs --name deskhub-api` (or systemd).
+
+`json-server`’s default middleware includes **CORS**, so a frontend on another origin can call the API. For a strict allow-list you’d add extra middleware later.
+
+### 4. Data persistence (important)
+
+`db.json` is a **file on disk**. On many free PaaS tiers the filesystem is **ephemeral** (restarts wipe changes). For a real deployment you either accept that for a demo, attach a **persistent disk**, or replace the API with a real database later.
+
+### 5. Quick “single machine” demo
+
+On one server: build the app, serve **`dist/`** with any static file server, and run **`node server.cjs`** (or use a reverse proxy so both share one HTTPS host and set **`VITE_API_URL`** to that HTTPS API origin).
+

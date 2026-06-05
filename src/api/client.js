@@ -28,10 +28,17 @@
  */
 import { get as getStored } from "../utils/storage.js";
 
-const BASE_URL =
-  typeof import.meta !== "undefined" && import.meta.env?.DEV
-    ? ""
-    : "http://localhost:3001";
+const BASE_URL = (() => {
+  if (typeof import.meta !== "undefined" && import.meta.env?.DEV) {
+    return "";
+  }
+  const fromEnv =
+    typeof import.meta !== "undefined" && import.meta.env?.VITE_API_URL;
+  if (fromEnv != null && String(fromEnv).trim() !== "") {
+    return String(fromEnv).replace(/\/$/, "");
+  }
+  return "http://localhost:3001";
+})();
 
 function getToken() {
   const t = getStored("token");
