@@ -308,6 +308,8 @@ function resetFilters() {
   if (assigneeEl) assigneeEl.value = "";
   const sortEl = document.getElementById("sort-by");
   if (sortEl) sortEl.value = "createdAt";
+  const orderEl = document.getElementById("sort-order");
+  if (orderEl) orderEl.value = "desc";
 
   refresh();
 }
@@ -354,6 +356,15 @@ function attachEventListeners() {
     .getElementById("sort-by")
     ?.addEventListener("change", (event) => {
       state.sortBy = event.target.value;
+      state.page = 1;
+      refresh();
+    });
+
+  document
+    .getElementById("sort-order")
+    ?.addEventListener("change", (event) => {
+      state.order = event.target.value;
+      state.page = 1;
       refresh();
     });
 

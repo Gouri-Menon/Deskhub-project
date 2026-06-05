@@ -52,10 +52,16 @@
       <select id="filter-assignee" aria-label="Assignee"></select>
 
       <select id="sort-by" aria-label="Sort by">
-        <option value="createdAt">Newest</option>
-        <option value="updatedAt">Recently updated</option>
+        <option value="createdAt">Date (created)</option>
+        <option value="updatedAt">Date (updated)</option>
+        <option value="title">Title</option>
         <option value="priority">Priority</option>
         <option value="status">Status</option>
+      </select>
+
+      <select id="sort-order" aria-label="Sort order">
+        <option value="desc">Descending</option>
+        <option value="asc">Ascending</option>
       </select>
 
       <button type="button" id="reset-filters-btn" class="filters-reset-btn">
