@@ -581,6 +581,13 @@
       "authorId": 3,
       "content": "Profiled the page — N+1 query problem on the new comments-count column. Optimisation patch in QA.",
       "createdAt": "2026-05-07T08:20:00Z"
+    },
+    {
+      "ticketId": 31,
+      "authorId": 1,
+      "content": "new cmment",
+      "createdAt": "2026-06-05T06:41:29.983Z",
+      "id": 21
     }
   ]
 }

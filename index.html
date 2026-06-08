@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DeskHub — Sign in</title>
+  <title>DeskHub — Welcome</title>
 </head>
-<body data-page="login">
-  <div class="login-card">
+<body data-page="landing">
+  <div class="landing-inner">
     <div class="brand">
       <div class="logo">
         <span class="logo-square"></span>
@@ -14,35 +14,14 @@
       <h1>DeskHub</h1>
     </div>
 
-    <p class="subtitle">Sign in to your workspace</p>
+    <p class="landing-headline">Your team’s ticket desk, simplified.</p>
+    <p class="landing-lead">
+      Track requests, assign work, and stay on top of every conversation in one place.
+    </p>
 
-    <form id="loginForm">
-      <div class="form-group">
-        <input
-          type="email"
-          id="email"
-          placeholder="Email address"
-          autocomplete="username"
-          required
-        />
-      </div>
-
-      <div class="form-group">
-        <input
-          type="password"
-          id="password"
-          placeholder="Password"
-          autocomplete="current-password"
-          required
-        />
-      </div>
-
-      <div class="error-banner" id="errorBanner">
-        Invalid email or password. Use a @deskhub.in account and password demo123.
-      </div>
-
-      <button type="submit" id="loginBtn">Sign in</button>
-    </form>
+    <div class="landing-actions">
+      <a href="/login.html" class="landing-login-btn">Log in</a>
+    </div>
   </div>
 
   <script type="module" src="/src/main.js"></script>

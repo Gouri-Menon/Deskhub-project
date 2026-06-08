@@ -1,6 +1,6 @@
 import "./styles/main.css";
 
-import { initLogin, requireAuth } from "./modules/auth.js";
+import { initLogin, initLanding, requireAuth } from "./modules/auth.js";
 import { initTicketsList } from "./modules/tickets.js";
 import { initDashboard } from "./modules/dashboard.js";
 import { initTicketDetail } from "./modules/ticketDetail.js";
@@ -17,6 +17,9 @@ const page = document.body.dataset.page;
 
 try {
   switch (page) {
+    case "landing":
+      initLanding();
+      break;
     case "login":
       initLogin();
       break;

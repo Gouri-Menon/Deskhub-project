@@ -5,9 +5,16 @@ export function isAuthenticated() {
   return !!get("token");
 }
 
+/** Public home: send signed-in users straight to the app. */
+export function initLanding() {
+  if (isAuthenticated()) {
+    window.location.href = "/dashboard.html";
+  }
+}
+
 export function requireAuth() {
   if (!isAuthenticated()) {
-    window.location.href = "/index.html";
+    window.location.href = "/login.html";
     return false;
   }
   return true;
@@ -44,5 +51,5 @@ export function initLogin() {
 
 export function doLogout() {
   clear();
-  window.location.href = "/index.html";
+  window.location.href = "/login.html";
 }

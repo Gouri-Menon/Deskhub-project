@@ -18,7 +18,7 @@ This runs:
 1. **API** — `http://localhost:3001` (json-server + `/login`, `/logout`, `/me`)
 2. **Web app** — `http://localhost:5173` (Vite)
 
-Open **http://localhost:5173/** in your browser (not the `file://` URL).
+Open **http://localhost:5173/** for the landing page, then **Log in** (or go directly to **http://localhost:5173/login.html**). Do not use a `file://` URL.
 
 ### Demo sign-in
 
@@ -61,7 +61,8 @@ The ticket is saved in the API (and in `db.json` while json-server runs). After 
 
 ## Project layout
 
-- `index.html` — login  
+- `index.html` — public landing (Log in → `login.html`)  
+- `login.html` — sign-in form  
 - `dashboard.html` — summary + recent tickets  
 - `tickets.html` — searchable, filterable ticket list  
 - `ticket-detail.html` — ticket + comments + updates  

@@ -98,7 +98,7 @@ function applySortFromSelectValue(value) {
 
 export async function initTicketsList() {
   if (!get("token")) {
-    window.location.href = "/index.html";
+    window.location.href = "/login.html";
     return;
   }
 

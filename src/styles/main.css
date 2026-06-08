@@ -159,6 +159,89 @@ button:disabled{
     cursor:not-allowed;
 }
 
+/* Landing (public home at /) */
+body[data-page="landing"] {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #0f1117;
+    position: relative;
+    overflow: hidden;
+    padding: 24px;
+}
+
+body[data-page="landing"]::before {
+    content: "";
+    position: absolute;
+    width: 560px;
+    height: 560px;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle,
+        rgba(99, 102, 241, 0.22) 0%,
+        rgba(6, 182, 212, 0.1) 42%,
+        transparent 68%
+    );
+    top: -100px;
+    right: -60px;
+    z-index: 0;
+}
+
+.landing-inner {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 520px;
+}
+
+.landing-inner .brand {
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.landing-headline {
+    font-size: clamp(1.75rem, 4.5vw, 2.5rem);
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.25;
+    margin-bottom: 14px;
+}
+
+.landing-lead {
+    color: #94a3b8;
+    font-size: 1.05rem;
+    line-height: 1.65;
+    margin-bottom: 28px;
+}
+
+.landing-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+}
+
+.landing-login-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0 28px;
+    border-radius: 8px;
+    background: #6366f1;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.landing-login-btn:hover {
+    background: #4f46e5;
+    color: #fff;
+}
+
 /* Dashboard page */
 
 body[data-page="dashboard"],

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DeskHub — Sign in</title>
+</head>
+<body data-page="login">
+  <div class="login-card">
+    <div class="brand">
+      <div class="logo">
+        <span class="logo-square"></span>
+      </div>
+      <h1>DeskHub</h1>
+    </div>
+
+    <p class="subtitle">Sign in to your workspace</p>
+
+    <form id="loginForm">
+      <div class="form-group">
+        <input
+          type="email"
+          id="email"
+          placeholder="Email address"
+          autocomplete="username"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <input
+          type="password"
+          id="password"
+          placeholder="Password"
+          autocomplete="current-password"
+          required
+        />
+      </div>
+
+      <div class="error-banner" id="errorBanner">
+        Invalid email or password. Use a @deskhub.in account and password demo123.
+      </div>
+
+      <button type="submit" id="loginBtn">Sign in</button>
+    </form>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
