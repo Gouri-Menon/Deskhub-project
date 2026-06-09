@@ -304,6 +304,113 @@ function populateAssigneeDropdown() {
   });
 }
 
+function assigneeNameForExport(assignedTo) {
+  if (assignedTo == null || assignedTo === "") return "";
+  const u = users.find((x) => String(x.id) === String(assignedTo));
+  return u ? u.name : "";
+}
+
+function csvCell(value) {
+  const s = String(value ?? "");
+  if (/[",\n\r]/.test(s)) return `"${s.replace(/"/g, '""')}"`;
+  return s;
+}
+
+function ticketsToCsv(rows) {
+  const headers = [
+    "id",
+    "title",
+    "customerName",
+    "customerEmail",
+    "priority",
+    "status",
+    "assignee",
+    "category",
+    "createdAt",
+    "updatedAt",
+    "description",
+  ];
+  const lines = [headers.join(",")];
+  for (const t of rows) {
+    lines.push(
+      [
+        csvCell(t.id),
+        csvCell(t.title),
+        csvCell(t.customerName || t.customer || ""),
+        csvCell(t.customerEmail || ""),
+        csvCell(t.priority),
+        csvCell(t.status),
+        csvCell(assigneeNameForExport(t.assignedTo)),
+        csvCell(t.category || ""),
+        csvCell(t.createdAt),
+        csvCell(t.updatedAt),
+        csvCell(t.description || ""),
+      ].join(",")
+    );
+  }
+  return lines.join("\r\n");
+}
+
+function downloadTextFile(filename, text, mime) {
+  const blob = new Blob([text], { type: mime });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  a.rel = "noopener";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+function exportFilename(ext) {
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `deskhub-tickets-${y}-${m}-${day}.${ext}`;
+}
+
+/** All rows matching current filters (not only the current page). */
+async function fetchAllFilteredTickets() {
+  if (!state.total) return [];
+  const limit = Math.min(50000, state.total);
+  const response = await listTickets({
+    search: state.search,
+    status: state.status,
+    priority: state.priority,
+    assignee: state.assignee,
+    sortBy: state.sortBy,
+    order: state.order,
+    page: 1,
+    limit,
+  });
+  return Array.isArray(response.data) ? response.data : [];
+}
+
+async function exportTicketsCsv() {
+  const btn = document.getElementById("export-csv-btn");
+  try {
+    if (btn) btn.disabled = true;
+    const rows = await fetchAllFilteredTickets();
+    if (!rows.length) {
+      alert("No tickets to export for the current filters.");
+      return;
+    }
+    const csv = ticketsToCsv(rows);
+    downloadTextFile(
+      exportFilename("csv"),
+      `\uFEFF${csv}`,
+      "text/csv;charset=utf-8"
+    );
+  } catch (e) {
+    alert(e instanceof Error ? e.message : "Export failed");
+  } finally {
+    if (btn) btn.disabled = false;
+  }
+}
+
 function resetFilters() {
   state.search = "";
   state.status = "";
@@ -380,6 +487,12 @@ function attachEventListeners() {
   document
     .getElementById("new-ticket-btn")
     ?.addEventListener("click", openCreateModal);
+
+  document
+    .getElementById("export-csv-btn")
+    ?.addEventListener("click", () => {
+      void exportTicketsCsv();
+    });
 }
 
 function setupNewTicketDialog() {

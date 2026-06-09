@@ -1,5 +1,6 @@
 import "./styles/main.css";
 
+import { mountThemeToggle } from "./modules/theme.js";
 import { initLogin, initLanding, requireAuth } from "./modules/auth.js";
 import { initTicketsList } from "./modules/tickets.js";
 import { initDashboard } from "./modules/dashboard.js";
@@ -16,6 +17,8 @@ window.addEventListener("unhandledrejection", (event) => {
 const page = document.body.dataset.page;
 
 try {
+  mountThemeToggle();
+
   switch (page) {
     case "landing":
       initLanding();

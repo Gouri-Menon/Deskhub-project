@@ -1122,3 +1122,320 @@ body[data-page="dashboard"] {
   margin: 0;
   font-size: 14px;
 }
+
+/* Tickets header: export + new ticket */
+.page-header-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.export-toolbar-btn {
+  min-width: 0;
+}
+
+/* Global theme toggle (all pages) */
+.theme-toggle-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 10000;
+  width: auto;
+  min-width: 108px;
+  height: 40px;
+  padding: 0 16px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 999px;
+  border: 1px solid #475569;
+  background: #1e293b;
+  color: #e2e8f0;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.theme-toggle-btn:hover {
+  background: #334155;
+  transform: translateY(-1px);
+}
+
+/* ---------- Light theme (`html[data-theme="light"]`) ---------- */
+html[data-theme="light"] body[data-page="landing"] {
+  background: #f8fafc;
+}
+
+html[data-theme="light"] body[data-page="landing"]::before {
+  opacity: 0.45;
+}
+
+html[data-theme="light"] .landing-inner .brand h1,
+html[data-theme="light"] .landing-headline {
+  color: #0f172a;
+}
+
+html[data-theme="light"] .landing-lead {
+  color: #475569;
+}
+
+html[data-theme="light"] body[data-page="login"] {
+  background: #f1f5f9;
+}
+
+html[data-theme="light"] body[data-page="login"]::before {
+  opacity: 0.5;
+}
+
+html[data-theme="light"] .login-card {
+  background: #ffffff;
+  border-color: #e2e8f0;
+  box-shadow: 0 16px 48px rgba(15, 23, 42, 0.08);
+}
+
+html[data-theme="light"] .brand h1 {
+  color: #0f172a;
+}
+
+html[data-theme="light"] .subtitle {
+  color: #64748b;
+}
+
+html[data-theme="light"] input {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+html[data-theme="light"] body[data-page="dashboard"],
+html[data-theme="light"] body[data-page="tickets-list"],
+html[data-theme="light"] body[data-page="ticket-detail"] {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+html[data-theme="light"] .page-header h1 {
+  color: #0f172a;
+}
+
+html[data-theme="light"] .welcome-line {
+  color: #334155;
+}
+
+html[data-theme="light"] .welcome-line span {
+  color: #0f172a;
+}
+
+html[data-theme="light"] .date {
+  color: #64748b;
+}
+
+html[data-theme="light"] .stat-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+}
+
+html[data-theme="light"] .stat-card h2 {
+  color: #0f172a;
+}
+
+html[data-theme="light"] .stat-card p {
+  color: #64748b;
+}
+
+html[data-theme="light"] .label {
+  color: #64748b;
+}
+
+html[data-theme="light"] table {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+}
+
+html[data-theme="light"] th {
+  color: #64748b;
+  border-bottom-color: #e2e8f0;
+  background: #f8fafc;
+}
+
+html[data-theme="light"] td {
+  color: #1e293b;
+}
+
+html[data-theme="light"] tbody tr:hover {
+  background: #f1f5f9;
+}
+
+html[data-theme="light"] .nav-link-btn--ghost {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  color: #334155;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+}
+
+html[data-theme="light"] .nav-link-btn--ghost:hover {
+  background: #f8fafc;
+  color: #0f172a;
+}
+
+html[data-theme="light"] .section-header h2 {
+  color: #0f172a;
+}
+
+html[data-theme="light"] .tickets-page .filters::before {
+  color: #64748b;
+}
+
+html[data-theme="light"] .tickets-page .filters input,
+html[data-theme="light"] .tickets-page .filters select {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+html[data-theme="light"] .tickets-page .filters input::placeholder {
+  color: #94a3b8;
+}
+
+html[data-theme="light"] .tickets-page .filters input:hover,
+html[data-theme="light"] .tickets-page .filters select:hover {
+  border-color: #94a3b8;
+  background: #f8fafc;
+}
+
+html[data-theme="light"] .tickets-page .filters input:focus,
+html[data-theme="light"] .tickets-page .filters select:focus {
+  background: #ffffff;
+}
+
+html[data-theme="light"] .tickets-page .filters select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' viewBox='0 0 24 24' stroke='%23475569'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+  background-color: #ffffff;
+}
+
+html[data-theme="light"] .tickets-page .filters select:hover {
+  background-color: #f8fafc;
+}
+
+html[data-theme="light"] .tickets-page .filters select:focus {
+  background-color: #ffffff;
+}
+
+html[data-theme="light"] .tickets-page .filters .filters-reset-btn {
+  color: #334155;
+  background: #e2e8f0;
+  border-color: #cbd5e1;
+}
+
+html[data-theme="light"] .tickets-page .filters .filters-reset-btn:hover {
+  background: #cbd5e1;
+  border-color: #94a3b8;
+}
+
+html[data-theme="light"] .pagination button {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  color: #334155;
+}
+
+html[data-theme="light"] .secondary-btn {
+  background: #e2e8f0;
+  color: #0f172a;
+  border: 1px solid #cbd5e1;
+}
+
+html[data-theme="light"] .secondary-btn:hover {
+  background: #cbd5e1;
+}
+
+html[data-theme="light"] .loading-banner {
+  background: #e2e8f0;
+  color: #475569;
+}
+
+html[data-theme="light"] .ticket-panel {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+}
+
+html[data-theme="light"] .ticket-panel h2 {
+  color: #475569;
+}
+
+html[data-theme="light"] .ticket-description-scroll {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+}
+
+html[data-theme="light"] .ticket-description,
+html[data-theme="light"] #ticket-customer {
+  color: #334155;
+}
+
+html[data-theme="light"] .ticket-controls label {
+  color: #64748b;
+}
+
+html[data-theme="light"] .ticket-controls select {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+html[data-theme="light"] .comment-item p {
+  color: #334155;
+}
+
+html[data-theme="light"] .comment-item {
+  border-bottom-color: #e2e8f0;
+}
+
+html[data-theme="light"] .comment-label {
+  color: #64748b;
+}
+
+html[data-theme="light"] #new-comment {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+html[data-theme="light"] .comments-scroll-region::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+}
+
+html[data-theme="light"] .ticket-modal {
+  background: #ffffff;
+  border-color: #e2e8f0;
+  color: #0f172a;
+  box-shadow: 0 24px 48px rgba(15, 23, 42, 0.12);
+}
+
+html[data-theme="light"] .ticket-modal .modal-field {
+  color: #64748b;
+}
+
+html[data-theme="light"] .ticket-modal input,
+html[data-theme="light"] .ticket-modal textarea,
+html[data-theme="light"] .ticket-modal select {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+html[data-theme="light"] .theme-toggle-btn {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  color: #0f172a;
+  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.12);
+}
+
+html[data-theme="light"] .theme-toggle-btn:hover {
+  background: #f1f5f9;
+}
