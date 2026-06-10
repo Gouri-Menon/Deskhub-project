@@ -1,7 +1,14 @@
 import "./styles/main.css";
 
 import { mountThemeToggle } from "./modules/theme.js";
-import { initLogin, initLanding, requireAuth } from "./modules/auth.js";
+import { initUi } from "./modules/ui.js";
+import { initShortcuts } from "./modules/shortcuts.js";
+import {
+  initLogin,
+  initLanding,
+  requireAuth,
+  wireLogoutControls,
+} from "./modules/auth.js";
 import { initTicketsList } from "./modules/tickets.js";
 import { initDashboard } from "./modules/dashboard.js";
 import { initTicketDetail } from "./modules/ticketDetail.js";
@@ -18,6 +25,8 @@ const page = document.body.dataset.page;
 
 try {
   mountThemeToggle();
+  initUi();
+  initShortcuts(page);
 
   switch (page) {
     case "landing":
@@ -27,13 +36,22 @@ try {
       initLogin();
       break;
     case "dashboard":
-      if (requireAuth()) initDashboard();
+      if (requireAuth()) {
+        wireLogoutControls();
+        initDashboard();
+      }
       break;
     case "tickets-list":
-      if (requireAuth()) initTicketsList();
+      if (requireAuth()) {
+        wireLogoutControls();
+        initTicketsList();
+      }
       break;
     case "ticket-detail":
-      if (requireAuth()) initTicketDetail();
+      if (requireAuth()) {
+        wireLogoutControls();
+        initTicketDetail();
+      }
       break;
     default:
       console.warn("Unknown page:", page);

@@ -18,6 +18,8 @@
  *
  *   GET    /comments?ticketId=:id                — comments for a ticket
  *   POST   /comments                             — add a comment
+ *   PATCH  /comments/:id                         — edit comment body
+ *   DELETE /comments/:id                        — delete comment
  *
  * TODO:
  *   [ ] listTickets(opts) — opts = { status, priority, search, sort, order, page, limit }
@@ -103,6 +105,17 @@ export async function addComment(comment) {
     ...comment,
     createdAt: new Date().toISOString(),
   });
+}
+
+export async function updateComment(id, updates) {
+  return patch(`/comments/${id}`, {
+    ...updates,
+    updatedAt: new Date().toISOString(),
+  });
+}
+
+export async function deleteComment(id) {
+  return del(`/comments/${id}`);
 }
 
 export async function getUsers() {

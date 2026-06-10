@@ -10,28 +10,55 @@
     <nav class="top-nav-bar" aria-label="Page navigation">
       <a href="/dashboard.html" class="nav-link-btn">← Dashboard</a>
       <a href="/tickets.html" id="back-link" class="nav-link-btn nav-link-btn--ghost">← Tickets</a>
+      <button type="button" id="logout-btn" class="logout-btn">Logout</button>
     </nav>
 
     <div class="ticket-header-block">
-      <h1 id="ticket-title"></h1>
-      <p class="date" id="ticket-meta"></p>
+      <div class="ticket-header-text">
+        <h1 id="ticket-title"></h1>
+        <p class="date" id="ticket-meta"></p>
+      </div>
     </div>
 
     <div class="ticket-grid">
       <section class="ticket-panel">
-        <h2>Description</h2>
+        <div class="ticket-description-heading">
+          <h2>Description</h2>
+          <div class="ticket-description-heading-actions">
+            <button
+              type="button"
+              id="edit-ticket-toggle-btn"
+              class="comment-tool-btn comment-tool-btn--icon-only ticket-edit-pen-btn"
+              aria-label="Edit description, status, priority, and assignee"
+              aria-pressed="false"
+              title="Edit description, status, priority, and assignee"
+            >
+              <svg class="comment-tool-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
         <div class="ticket-description-scroll">
-          <p id="ticket-description" class="ticket-description"></p>
+          <p id="ticket-description" class="ticket-description ticket-description--view"></p>
+          <textarea
+            id="ticket-description-edit"
+            class="ticket-description ticket-description--edit"
+            rows="4"
+            hidden
+            aria-label="Ticket description"
+          ></textarea>
         </div>
 
         <h2>Customer</h2>
         <p id="ticket-customer"></p>
 
         <h2>Update</h2>
-        <div class="ticket-controls">
+        <div class="ticket-controls" id="ticket-controls">
           <label>
             Status
-            <select id="status-select">
+            <select id="status-select" disabled>
               <option value="open">Open</option>
               <option value="in-progress">In progress</option>
               <option value="resolved">Resolved</option>
@@ -40,7 +67,7 @@
           </label>
           <label>
             Priority
-            <select id="priority-select">
+            <select id="priority-select" disabled>
               <option value="low">Low</option>
               <option value="medium">Medium</option>
               <option value="high">High</option>
@@ -49,7 +76,7 @@
           </label>
           <label>
             Assignee
-            <select id="assignee-select"></select>
+            <select id="assignee-select" disabled></select>
           </label>
         </div>
 
@@ -60,7 +87,12 @@
             aria-live="polite"
           ></span>
           <div class="ticket-actions-buttons">
-            <button type="button" id="save-ticket-btn" class="save-ticket-btn">
+            <button
+              type="button"
+              id="save-ticket-btn"
+              class="save-ticket-btn"
+              disabled
+            >
               Save changes
             </button>
             <button type="button" id="delete-btn" class="danger-btn danger-btn--row">

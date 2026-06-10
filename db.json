@@ -426,19 +426,6 @@
       "assignedTo": 3,
       "createdAt": "2026-05-04T10:30:00Z",
       "updatedAt": "2026-05-07T08:20:00Z"
-    },
-    {
-      "title": "new ticket",
-      "description": "issue with laptop",
-      "customerName": "gouri",
-      "customerEmail": "gouri@gmail.com",
-      "category": "billing",
-      "priority": "medium",
-      "status": "closed",
-      "assignedTo": 1,
-      "createdAt": "2026-06-04T06:47:09.541Z",
-      "updatedAt": "2026-06-04T07:20:03.337Z",
-      "id": 31
     }
   ],
   "comments": [
@@ -581,13 +568,6 @@
       "authorId": 3,
       "content": "Profiled the page — N+1 query problem on the new comments-count column. Optimisation patch in QA.",
       "createdAt": "2026-05-07T08:20:00Z"
-    },
-    {
-      "ticketId": 31,
-      "authorId": 1,
-      "content": "new cmment",
-      "createdAt": "2026-06-05T06:41:29.983Z",
-      "id": 21
     }
   ]
 }

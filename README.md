@@ -74,6 +74,7 @@ The ticket is saved in the API (and in `db.json` while json-server runs). After 
 
 - In development, Vite proxies API paths to port **3001**, so the app uses same-origin requests.  
 - If you only open static HTML files without Vite, modules and the proxy will not work—always use `npm start`.
+- On a ticket, **Edit** / **Delete** appear only on comments you authored (same signed-in user as `authorId`); the API does not enforce authorship on PATCH/DELETE (demo only).
 
 ## Deployment
 

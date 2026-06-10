@@ -12,7 +12,7 @@
  *   - <table id="tickets-table"> (or list)   render rows here
  *   - <div id="pagination">                  prev / page numbers / next
  *   - <button id="new-ticket-btn">           opens create modal
- *   - <div id="loading">, <div id="error">   states
+ *   - <div id="error">                     error state (inline)
  *
  * Suggested local state shape:
  *   const state = {
@@ -67,6 +67,7 @@ import { listTickets, getUsers, createTicket } from "../api/tickets.js";
 import { debounce } from "../utils/debounce.js";
 import { formatDate } from "../utils/formatDate.js";
 import { get } from "../utils/storage.js";
+import { showToast, showLoader, hideLoader } from "./ui.js";
 
 const state = {
   search: "",
@@ -121,7 +122,7 @@ users = response.data;
 
 async function refresh() {
   try {
-    showLoading();
+    showLoader();
 
     const response = await listTickets({
   search: state.search,
@@ -161,8 +162,10 @@ async function refresh() {
     if (retryBtn) {
       retryBtn.addEventListener("click", refresh);
     }
+
+    showToast("Failed to load tickets.", { type: "error" });
   } finally {
-    hideLoading();
+    hideLoader();
   }
 }
 
@@ -292,7 +295,7 @@ function populateAssigneeDropdown() {
   if (!select) return;
 
   select.innerHTML = `
-    <option value="">All Assignees</option>
+    <option value="">Select assignee</option>
   `;
 
   users.forEach((user) => {
@@ -393,9 +396,12 @@ async function exportTicketsCsv() {
   const btn = document.getElementById("export-csv-btn");
   try {
     if (btn) btn.disabled = true;
+    showLoader({ slow: true });
     const rows = await fetchAllFilteredTickets();
     if (!rows.length) {
-      alert("No tickets to export for the current filters.");
+      showToast("No tickets to export for the current filters.", {
+        type: "warning",
+      });
       return;
     }
     const csv = ticketsToCsv(rows);
@@ -404,9 +410,15 @@ async function exportTicketsCsv() {
       `\uFEFF${csv}`,
       "text/csv;charset=utf-8"
     );
+    showToast(`Exported ${rows.length} ticket(s) to CSV.`, {
+      type: "success",
+    });
   } catch (e) {
-    alert(e instanceof Error ? e.message : "Export failed");
+    showToast(e instanceof Error ? e.message : "Export failed", {
+      type: "error",
+    });
   } finally {
+    hideLoader();
     if (btn) btn.disabled = false;
   }
 }
@@ -525,11 +537,12 @@ function setupNewTicketDialog() {
     };
 
     if (!payload.title || !payload.description) {
-      alert("Please enter a title and description.");
+      showToast("Please enter a title and description.", { type: "warning" });
       return;
     }
 
     try {
+      showLoader();
       const res = await createTicket(payload);
       const created = res?.data;
       dialog.close();
@@ -540,7 +553,11 @@ function setupNewTicketDialog() {
         window.location.href = `/ticket-detail.html?id=${created.id}`;
       }
     } catch (err) {
-      alert(err instanceof Error ? err.message : "Could not create ticket");
+      showToast(err instanceof Error ? err.message : "Could not create ticket", {
+        type: "error",
+      });
+    } finally {
+      hideLoader();
     }
   });
 }
@@ -560,16 +577,6 @@ function openCreateModal() {
       .join("");
 
   dialog.showModal();
-}
-
-function showLoading() {
-  const loading = document.getElementById("loading");
-  loading?.classList.remove("is-hidden");
-}
-
-function hideLoading() {
-  const loading = document.getElementById("loading");
-  loading?.classList.add("is-hidden");
 }
 
 function showError(message) {

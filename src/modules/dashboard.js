@@ -1,7 +1,7 @@
 import { get } from "../utils/storage.js";
 import { get as apiGet } from "../api/client.js";
 import { formatDate } from "../utils/formatDate.js";
-import { doLogout } from "./auth.js";
+import { showToast, showLoader, hideLoader } from "./ui.js";
 
 function setText(id, text) {
   const el = document.getElementById(id);
@@ -9,10 +9,6 @@ function setText(id, text) {
 }
 
 export async function initDashboard() {
-  document.getElementById("logout-btn")?.addEventListener("click", () => {
-    doLogout();
-  });
-
   const user = get("user");
   if (user?.name) {
     setText("welcome-name", user.name);
@@ -30,6 +26,7 @@ export async function initDashboard() {
   );
 
   try {
+    showLoader({ slow: true });
     const { data: tickets } = await apiGet("/tickets");
     const list = Array.isArray(tickets) ? tickets : [];
 
@@ -97,6 +94,12 @@ export async function initDashboard() {
       tbody.innerHTML =
         '<tr><td colspan="6">Could not load tickets. Is the API running?</td></tr>';
     }
+    showToast(
+      e instanceof Error ? e.message : "Could not load dashboard data.",
+      { type: "error" }
+    );
+  } finally {
+    hideLoader();
   }
 }
 

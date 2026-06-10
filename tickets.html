@@ -9,6 +9,7 @@
   <div class="dashboard-container tickets-page">
     <nav class="top-nav-bar" aria-label="Quick links">
       <a href="/dashboard.html" class="nav-link-btn nav-link-btn--ghost">← Dashboard</a>
+      <button type="button" id="logout-btn" class="logout-btn">Logout</button>
     </nav>
 
     <div class="page-header">
@@ -25,9 +26,6 @@
       </div>
     </div>
 
-    <div id="loading" class="loading-banner is-hidden">
-      Loading…
-    </div>
     <div id="error" class="error-banner-page is-hidden"></div>
 
     <div class="filters">
@@ -39,7 +37,7 @@
       />
 
       <select id="filter-status" aria-label="Status">
-        <option value="">All status</option>
+        <option value="">Select status</option>
         <option value="open">Open</option>
         <option value="in-progress">In progress</option>
         <option value="resolved">Resolved</option>
@@ -47,7 +45,7 @@
       </select>
 
       <select id="filter-priority" aria-label="Priority">
-        <option value="">All priority</option>
+        <option value="">Select priority</option>
         <option value="low">Low</option>
         <option value="medium">Medium</option>
         <option value="high">High</option>
